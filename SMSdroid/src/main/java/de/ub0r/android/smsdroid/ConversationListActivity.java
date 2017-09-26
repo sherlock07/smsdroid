@@ -501,6 +501,7 @@ public final class ConversationListActivity extends AppCompatActivity implements
      */
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
+
         switch (item.getItemId()) {
             case R.id.item_compose:
                 final Intent i = getComposeIntent(this, null, false);
@@ -535,9 +536,14 @@ public final class ConversationListActivity extends AppCompatActivity implements
                 markRead(this, Uri.parse("content://sms/"), 1);
                 markRead(this, Uri.parse("content://mms/"), 1);
                 return true;
-            default:
-                return super.onOptionsItemSelected(item);
+            case R.id.item_food:
+                startActivity(new Intent(this, FoodActivity.class));
+                return true;
+            case R.id.item_cab:
+                startActivity(new Intent(this,CabActivity.class));
+
         }
+        return super.onOptionsItemSelected(item);
     }
 
     /**

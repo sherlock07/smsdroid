@@ -71,4 +71,5 @@ dependencies {
     compile 'de.ub0r.android.lib:lib:1.1.1'
     compile 'de.ub0r.android.logg0r:logg0r:2.0.0'
     compile 'de.ub0r.android.eucookieconsent:library:0.2.0@aar'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
 }

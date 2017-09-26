@@ -40,5 +40,33 @@
             android:id="@+id/item_donate"
             android:title="@string/donate_remove_ads_"
             android:icon="@drawable/ic_menu_star"/>
+    <item
+        android:id="@+id/item_food"
+        android:title="Food"/>
+    <item
+        android:id="@+id/item_cab"
+        android:title="Cab"/>
+    <item
+        android:id="@+id/item_personal"
+        android:title="Personal"/>
+    <item
+        android:id="@+id/item_spam"
+        android:title="Spam"/>
+    <item
+        android:id="@+id/item_onlineTransaction"
+        android:title="Online Transaction"/>
+    <item
+        android:id="@+id/others"
+        android:title="Others"/>
+    <item
+        android:id="@+id/item_service"
+        android:title="Service"/>
+    <item
+        android:id="@+id/item_bank"
+        android:title="Bank"/>
+    <item
+        android:id="@+id/item_reminder"
+        android:title="Reminder"/>
+
 
 </menu>

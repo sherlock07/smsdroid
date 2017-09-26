@@ -145,6 +145,7 @@
             android:permission="android.permission.SEND_RESPOND_VIA_MESSAGE">
             <intent-filter>
                 <action android:name="android.intent.action.RESPOND_VIA_MESSAGE" />
+
                 <category android:name="android.intent.category.DEFAULT" />
 
                 <data android:scheme="sms" />
@@ -154,24 +155,19 @@
             </intent-filter>
         </service>
 
-
         <receiver
             android:name=".SmsReceiver"
             android:exported="true"
             android:permission="android.permission.BROADCAST_SMS">
-
             <intent-filter>
                 <action android:name="android.provider.Telephony.SMS_DELIVER" />
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
-
         </receiver>
-
         <receiver
             android:name=".MmsReceiver"
             android:exported="true"
             android:permission="android.permission.BROADCAST_WAP_PUSH">
-
             <intent-filter>
                 <action android:name="android.provider.Telephony.WAP_PUSH_DELIVER" />
                 <action android:name="android.provider.Telephony.WAP_PUSH_RECEIVE" />
@@ -179,7 +175,6 @@
                 <data android:mimeType="application/vnd.wap.mms-message" />
             </intent-filter>
         </receiver>
-
         <receiver
             android:name=".WebSMSBroadcastReceiver"
             android:permission="de.ub0r.android.smsdroid.SAVE_TO_DB">
@@ -187,13 +182,11 @@
                 <action android:name="de.ub0r.android.websms.SEND_SUCCESSFUL" />
             </intent-filter>
         </receiver>
-
         <receiver android:name=".NotificationBroadcastReceiver">
             <intent-filter>
                 <action android:name="de.ub0r.android.smsdroid.MARK_READ" />
             </intent-filter>
         </receiver>
-
         <receiver android:name=".WidgetProvider">
             <meta-data
                 android:name="android.appwidget.provider"
@@ -219,14 +212,40 @@
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
-
         <meta-data
             android:name="android.app.default_searchable"
             android:value=".ConversationList" />
-
         <meta-data
             android:name="android.max_aspect"
             android:value="2.1" />
+
+        <activity
+            android:name=".FoodActivity"
+            android:theme="@style/Base.Theme.AppCompat" />
+        <activity
+            android:name=".CabActivity"
+            android:theme="@style/Base.Theme.AppCompat" />
+        <activity
+            android:name=".PersonalActivity"
+            android:theme="@style/Base.Theme.AppCompat"/>
+        <activity
+            android:name=".SpamActivity"
+            android:theme="@style/Base.Theme.AppCompat"/>
+        <activity
+            android:name=".ReminderActivity"
+            android:theme="@style/Base.Theme.AppCompat"/>
+        <activity
+            android:name=".OtherActivity"
+            android:theme="@style/Base.Theme.AppCompat"/>
+        <activity
+            android:name=".OnlineTransactionActivity"
+            android:theme="@style/Base.Theme.AppCompat"/>
+        <activity
+            android:name=".ServiceActivity"
+            android:theme="@style/Base.Theme.AppCompat"/>
+        <activity
+            android:name=".BankActivity"
+            android:theme="@style/Base.Theme.AppCompat"></activity>
     </application>
 
 </manifest>
