@@ -245,7 +245,7 @@
             android:theme="@style/Base.Theme.AppCompat"/>
         <activity
             android:name=".BankActivity"
-            android:theme="@style/Base.Theme.AppCompat"></activity>
+            android:theme="@style/Base.Theme.AppCompat"/>
     </application>
 
 </manifest>
