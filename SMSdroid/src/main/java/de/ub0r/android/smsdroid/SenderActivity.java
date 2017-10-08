@@ -5,6 +5,7 @@ package de.ub0r.android.smsdroid;
 
 import android.app.PendingIntent;
 import android.app.PendingIntent.CanceledException;
+import android.content.ActivityNotFoundException;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Intent;
@@ -15,6 +16,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.BaseColumns;
+import android.speech.RecognizerIntent;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.SmsManager;
 import android.text.ClipboardManager;
@@ -24,16 +26,21 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.MultiAutoCompleteTextView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.net.URLDecoder;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import de.ub0r.android.lib.apis.ContactsWrapper;
 import de.ub0r.android.logg0r.Log;
+
+import static android.R.attr.id;
 
 /**
  * Class sending messages via standard Messaging interface.
@@ -103,6 +110,10 @@ public final class SenderActivity extends AppCompatActivity implements OnClickLi
     @SuppressWarnings("deprecation")
     private ClipboardManager cbmgr;
 
+    private final int REQ_CODE_SPEECH_OUTPUT=143;
+    private ImageButton btnToOpenMic;
+    String VoiceMsg;
+
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -139,13 +150,17 @@ public final class SenderActivity extends AppCompatActivity implements OnClickLi
                 setTheme(PreferencesActivity.getTheme(this));
                 setContentView(R.layout.sender);
                 findViewById(R.id.text_paste).setOnClickListener(this);
+                findViewById(R.id.btnToOpenMic).setOnClickListener(this);
+
                 final EditText et = (EditText) findViewById(R.id.text);
                 et.addTextChangedListener(new MyTextWatcher(this, (TextView) this
                         .findViewById(R.id.text_paste), (TextView) findViewById(R.id.text_)));
                 et.setText(text);
+
                 final MultiAutoCompleteTextView mtv = (MultiAutoCompleteTextView) this
                         .findViewById(R.id.to);
                 final MobilePhoneAdapter mpa = new MobilePhoneAdapter(this);
+
                 final SharedPreferences p = PreferenceManager.getDefaultSharedPreferences(this);
                 MobilePhoneAdapter.setMobileNumbersOnly(p.getBoolean(
                         PreferencesActivity.PREFS_MOBILE_ONLY, false));
@@ -186,6 +201,46 @@ public final class SenderActivity extends AppCompatActivity implements OnClickLi
         }
     }
 
+    private void openMic()
+    {
+        android.util.Log.d(TAG, "openMic: Start");
+        VoiceMsg = "";
+        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
+        intent.putExtra(RecognizerIntent.EXTRA_PROMPT,"Hi Speak Now");
+
+        try{
+            startActivityForResult(intent,REQ_CODE_SPEECH_OUTPUT);
+        }
+        catch (ActivityNotFoundException anfe)
+        {
+            Toast.makeText(this, "Activity Not Found.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch (requestCode)
+        {
+            case REQ_CODE_SPEECH_OUTPUT:
+            {
+                if (resultCode== RESULT_OK && null!=data)
+                {
+                    ArrayList<String> voiceInText = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                    VoiceMsg = voiceInText.get(0);
+                    EditText et = (EditText) findViewById(R.id.text);
+                    String prevMsg = et.getText().toString();
+                    et.setText(prevMsg+" "+VoiceMsg);
+                }
+                break;
+            }
+        }
+
+
+    }
     /**
      * Parse data pushed by {@link Intent}.
      *
@@ -348,8 +403,16 @@ public final class SenderActivity extends AppCompatActivity implements OnClickLi
                 final CharSequence s = cbmgr.getText();
                 ((EditText) findViewById(R.id.text)).setText(s);
                 return;
+            case R.id.btnToOpenMic:
+                Log.d(TAG, "onClick: Opening Mic");
+                Toast.makeText(this, "Opening Mic", Toast.LENGTH_SHORT).show();
+                openMic();
+                break;
             default:
                 break;
+
+
+
         }
     }
 

@@ -61,6 +61,15 @@
                         android:autoText="true"
                         android:minLines="3"
                         android:inputType="textMultiLine|textAutoCorrect|textCapSentences"/>
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/btnToOpenMic"
+                    android:src="@drawable/ic_action_voice_msg"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    />
                 <TextView
                         android:id="@+id/text_"
                         android:layout_width="wrap_content"
